@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Vector3 } from 'three';
-import { Raccoon, Sidewalk, SIDEWALK_SIZE } from 'objects';
+import { Scooter, Raccoon, Sidewalk, SIDEWALK_SIZE } from 'objects';
 import { BasicLights } from 'lights';
 
 const nightColor = new Color(0x000000);
@@ -27,14 +27,17 @@ class SeedScene extends Scene {
         const lights = new BasicLights(this);
         this.add(lights);
         let min_pos = -2;
-        let max_pos = 5;
+        let max_pos = 10;
         let sidewalk;
         for (let i = min_pos; i < max_pos; i++) {
-            sidewalk = new Sidewalk(this, new Vector3(SIDEWALK_SIZE.x * i, 0, 0), -min_pos, max_pos, i);
+            sidewalk = new Sidewalk(this, new Vector3(SIDEWALK_SIZE.x * i, 0, 0), min_pos, max_pos, i);
             this.add(sidewalk);
+            this.state.updateList.push(sidewalk);
         }
-        const raccoon = new Raccoon(this, new Vector3(0, 0, 0));
+        const raccoon = new Raccoon(this, new Vector3(0, 0, 0), Math.PI / 2);
         this.add(raccoon)
+
+        console.log(this.state.updateList);
 
         // Populate GUI
         // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -50,6 +53,9 @@ class SeedScene extends Scene {
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
+            // if (timeStamp < 1000) {
+            //     console.log(obj);
+            // }
             obj.update(timeStamp);
         }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));

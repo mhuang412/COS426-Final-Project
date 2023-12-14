@@ -1,7 +1,7 @@
 import { Group, SpotLight, AmbientLight, HemisphereLight } from 'three';
 
 class BasicLights extends Group {
-    constructor(...args) {
+    constructor(parent, ...args) {
         // Invoke parent Group() constructor with our args
         super(...args);
 
@@ -13,6 +13,11 @@ class BasicLights extends Group {
         dir.target.position.set(0, 0, 0);
 
         this.add(ambi, hemi, dir);
+        // this.parent.addToUpdateList(this);
+    }
+
+    update(timeStamp) {
+        dir.position.set(-8, -8 ,5 * Math.sin(timeStamp/100000))
     }
 }
 
