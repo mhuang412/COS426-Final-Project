@@ -1,5 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Vector3 } from 'three';
+import * as THREE from 'three';
 import { Scooter, Raccoon, Coin, Sidewalk, SIDEWALK_SIZE } from 'objects';
 import { BasicLights } from 'lights';
 
