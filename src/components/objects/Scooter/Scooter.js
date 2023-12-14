@@ -1,8 +1,10 @@
 import { Group, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './scooter.gltf';
+import { SIDEWALK_SIZE } from '../Sidewalk';
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
-const scale = new Vector3(1, 1, 1);
+const scale = new Vector3(0.3, 0.3, 0.3);
 
 class Scooter extends Group {
     constructor(parent, position) {
@@ -17,27 +19,37 @@ class Scooter extends Group {
 
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.set(scale.x, scale.y, scale.z);
-            if (this.pos == 5) {
-                gltf.scene.scale.set(scale.x / 2, scale.y / 2, scale.z / 2);
-            }
-            let model = gltf.scene;
-            model.position.setX(position.x);
-            model.position.setY(position.y);
-            model.position.setZ(position.z);
-            this.add(model);
+            // let model = gltf.scene;
+            // model.position.setX(position.x);
+            // model.position.setY(position.y);
+            // model.position.setZ(position.z);
+            // this.add(model);
+            // gltf.scene.scale.set(
+            //     1.5, 1.5 * window.innerHeight / originalHeight, 1.5 * window.innerWidth / originalWidth
+            // );
+            gltf.scene.rotation.set(0, -1.75, 0);
+            gltf.scene.position.set(0, 0.5, 0);
+            this.add(gltf.scene);
         });
 
-        // parent.addToUpdateList(this);
+        this.boundingBox = new Box3;
+        const floatingLeft = new TWEEN.Tween(this.position)
+            .to({ z: -SIDEWALK_SIZE.z }, 2000);
+        const floatingRight = new TWEEN.Tween(this.position)
+            .to({ z: SIDEWALK_SIZE.z }, 2000);
+
+        floatingLeft.onComplete(() => floatingRight.start());
+        floatingRight.onComplete(() => floatingLeft.start());
+
+        floatingLeft.start();
+
+        parent.addToUpdateList(this);
     }
 
     update(timeStamp) {
-        if (this.pos == 5) {
-            console.log(this.position)
-        }
-        if (this.position.x < -8) {
-            this.position.x = this.max_pos * SIDEWALK_SIZE.x;
-        }
-        this.position.x -= SIDEWALK_SIZE.x/100;
+        this.position.x -= 0.01;
+        this.boundingBox.setFromObject(this);
+        TWEEN.update();
     }
 }
 

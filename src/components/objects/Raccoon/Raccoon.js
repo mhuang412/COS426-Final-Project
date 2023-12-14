@@ -40,7 +40,7 @@ class Raccoon extends Group {
 
             moveDis.start();
             // this.position.z -= SIDEWALK_SIZE.z / 20;
-            this.box.translate(new Vector3(0, 0, -SIDEWALK_SIZE.z/20));
+            // this.box.translate(new Vector3(0, 0, -SIDEWALK_SIZE.z/20));
         }
         if (dir == 1) {
             const moveDis = new TWEEN.Tween(this.position)
@@ -48,10 +48,11 @@ class Raccoon extends Group {
             .easing(TWEEN.Easing.Quadratic.Out);
 
             moveDis.start();
+
             // this.position.z += SIDEWALK_SIZE.z / 20;
-            this.box.translate(new Vector3(0, 0, SIDEWALK_SIZE.z/20));
+            // this.box.translate(new Vector3(0, 0, SIDEWALK_SIZE.z/20));
         }
-        
+
     }
 
     update(timestamp) {
@@ -59,13 +60,14 @@ class Raccoon extends Group {
         if (this.position.z <= -SIDEWALK_SIZE.z) {
             let diff = -SIDEWALK_SIZE.z + 0.01 - this.position.z;
             this.position.z += diff;
-            this.box.translate(new Vector3(0, 0, diff));
+            // this.box.translate(new Vector3(0, 0, diff));
         }
         if (this.position.z >= SIDEWALK_SIZE.z) {
             let diff = SIDEWALK_SIZE.z + 0.01 - this.position.z;
             this.position.z += diff;
-            this.box.translate(new Vector3(0, 0, diff))
+           // this.box.translate(new Vector3(0, 0, diff))
         }
+        this.box.setFromObject(this);
         // console.log(this.box);
     }
 }
