@@ -52,7 +52,7 @@ audioLoader.load(
     function (buffer) {
         bgmusic.setBuffer(buffer);
         bgmusic.setLoop(true);
-        bgmusic.setVolume(0.25);
+        bgmusic.setVolume(0.50);
     }
 );
 
