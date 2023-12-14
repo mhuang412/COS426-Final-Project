@@ -532,7 +532,7 @@
           1
         ],
         "metallicFactor": 0.5,
-        "roughnessFactor": 0.5
+        "roughnessFactor": 0.8
       },
       "emissiveFactor": [
         0,
@@ -614,7 +614,7 @@
           1
         ],
         "metallicFactor": 0.5,
-        "roughnessFactor": 0.5
+        "roughnessFactor": 0.8
       },
       "emissiveFactor": [
         0,
@@ -634,7 +634,7 @@
           1
         ],
         "metallicFactor": 0.5,
-        "roughnessFactor": 0.5
+        "roughnessFactor": 0.8
       },
       "emissiveFactor": [
         0,
