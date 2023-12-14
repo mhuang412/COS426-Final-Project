@@ -1,9 +1,9 @@
 import { Group, Vector3, Box3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './raccoon.glb';
+import MODEL from './raccoon.gltf';
 import { SIDEWALK_SIZE } from '../Sidewalk';
 
-const scale = new Vector3(0.65, 0.65, 0.65);
+const scale = new Vector3(1, 1, 1);
 
 class Raccoon extends Group {
     constructor(parent, position, rotation) {
@@ -32,10 +32,10 @@ class Raccoon extends Group {
 
     changeLanes(dir) {
         if (dir == -1) {
-            this.position.z -= SIDEWALK_SIZE.z / 100;
+            this.position.z -= SIDEWALK_SIZE.z / 20;
         }
         if (dir == 1) {
-            this.position.z += SIDEWALK_SIZE.z / 100;
+            this.position.z += SIDEWALK_SIZE.z / 20;
         }
         if (this.position.z <= -SIDEWALK_SIZE.z) {
             this.position.z = -SIDEWALK_SIZE.z + 0.01;
