@@ -7,6 +7,7 @@
  *
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
 
@@ -36,6 +37,23 @@ controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.enabled = false;
 controls.update();
+
+// Add music
+let listener = new THREE.AudioListener();
+camera.add(listener);
+let sounds = [];
+let audioLoader = new THREE.AudioLoader();
+
+let bgmusic = new THREE.Audio(listener);
+sounds['bgmusic'] = bgmusic;
+audioLoader.load(
+    'https://raw.githubusercontent.com/mhuang412/COS426-Final-Project/main/src/components/sounds/eyeofthetiger.m4a',
+    function (buffer) {
+        bgmusic.setBuffer(buffer);
+        bgmusic.setLoop(true);
+        bgmusic.setVolume(0.25);
+    }
+);
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
