@@ -98,7 +98,7 @@ window.addEventListener('keydown', (event) => {
     // if (event.repeat) return;
     if (event.key == "ArrowLeft") scene.state.character.changeLanes(-1);
     if (event.key == "ArrowRight") scene.state.character.changeLanes(1);
-    console.log(keypress);
+    //console.log(keypress);
 }
 , false);
 

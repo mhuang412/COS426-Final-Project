@@ -2,6 +2,8 @@ import { Group, Vector3, Box3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './raccoon.gltf';
 import { SIDEWALK_SIZE } from '../Sidewalk';
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+
 
 const scale = new Vector3(0.65, 0.65, 0.65);
 
@@ -27,15 +29,25 @@ class Raccoon extends Group {
         this.position.y = position.x;
         this.position.z = position.x;
         this.rotateY(rotation);
-        // parent.addToUpdateList(this);
+        parent.addToUpdateList(this);
     }
 
     changeLanes(dir) {
         if (dir == -1) {
-            this.position.z -= SIDEWALK_SIZE.z / 20;
+            const moveDis = new TWEEN.Tween(this.position)
+            .to({ z: this.position.z - SIDEWALK_SIZE.z / 20 }, 250)
+            .easing(TWEEN.Easing.Quadratic.Out);
+
+            moveDis.start();
+            // this.position.z -= SIDEWALK_SIZE.z / 20;
         }
         if (dir == 1) {
-            this.position.z += SIDEWALK_SIZE.z / 20;
+            const moveDis = new TWEEN.Tween(this.position)
+            .to({ z: this.position.z + SIDEWALK_SIZE.z / 20 }, 250)
+            .easing(TWEEN.Easing.Quadratic.Out);
+
+            moveDis.start();
+            // this.position.z += SIDEWALK_SIZE.z / 20;
         }
         if (this.position.z <= -SIDEWALK_SIZE.z) {
             this.position.z = -SIDEWALK_SIZE.z + 0.01;
@@ -43,6 +55,10 @@ class Raccoon extends Group {
         if (this.position.z >= SIDEWALK_SIZE.z) {
             this.position.z = SIDEWALK_SIZE.z - 0.01;
         }
+    }
+
+    update(timestamp) {
+        TWEEN.update();
     }
 }
 
