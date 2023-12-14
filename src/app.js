@@ -56,6 +56,13 @@ audioLoader.load(
     }
 );
 
+// Game states
+let gameStart = true;
+let gameOver = false;
+let gameRunning = false;
+//let gamePaused = false;
+let coinsCollected = 0;
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
@@ -64,6 +71,18 @@ const onAnimationFrameHandler = (timeStamp) => {
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
+
+// Start theme music - spacebar click
+document.addEventListener('keydown', function (event) {
+    if (event.key === ' ') {
+        if (gameStart) {
+            gameStart = false;
+            gameRunning = true;
+            sounds['bgmusic'].play();
+        }
+    }
+});
+
 
 // Resize Handler
 const windowResizeHandler = () => {
