@@ -17,7 +17,7 @@ class BasicLights extends Group {
     }
 
     update(timeStamp) {
-        dir.position.set(-8, -8 ,5 * Math.sin(timeStamp/100000))
+        dir.position.set(-8, -8 ,5 * Math.sin(timeStamp/100000));
     }
 }
 

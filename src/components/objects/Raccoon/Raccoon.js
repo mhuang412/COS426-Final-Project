@@ -23,7 +23,7 @@ class Raccoon extends Group {
             model.scale.set(scale.x, scale.y, scale.z);
             this.add(model);
             this.box = new Box3().setFromObject(gltf.scene, true);
-            console.log(this.box.min);
+            console.log(this.box);
         });
         this.position.x = position.x;
         this.position.y = position.x;
@@ -40,6 +40,7 @@ class Raccoon extends Group {
 
             moveDis.start();
             // this.position.z -= SIDEWALK_SIZE.z / 20;
+            this.box.translate(new Vector3(0, 0, -SIDEWALK_SIZE.z/20));
         }
         if (dir == 1) {
             const moveDis = new TWEEN.Tween(this.position)
@@ -48,6 +49,7 @@ class Raccoon extends Group {
 
             moveDis.start();
             // this.position.z += SIDEWALK_SIZE.z / 20;
+            this.box.translate(new Vector3(0, 0, SIDEWALK_SIZE.z/20));
         }
         
     }
@@ -55,11 +57,16 @@ class Raccoon extends Group {
     update(timestamp) {
         TWEEN.update();
         if (this.position.z <= -SIDEWALK_SIZE.z) {
-            this.position.z = -SIDEWALK_SIZE.z + 0.01;
+            let diff = -SIDEWALK_SIZE.z + 0.01 - this.position.z;
+            this.position.z += diff;
+            this.box.translate(new Vector3(0, 0, diff));
         }
         if (this.position.z >= SIDEWALK_SIZE.z) {
-            this.position.z = SIDEWALK_SIZE.z - 0.01;
+            let diff = SIDEWALK_SIZE.z + 0.01 - this.position.z;
+            this.position.z += diff;
+            this.box.translate(new Vector3(0, 0, diff))
         }
+        // console.log(this.box);
     }
 }
 
