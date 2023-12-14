@@ -35,7 +35,7 @@ class Raccoon extends Group {
     changeLanes(dir) {
         if (dir == -1) {
             const moveDis = new TWEEN.Tween(this.position)
-            .to({ z: this.position.z - SIDEWALK_SIZE.z / 20 }, 250)
+            .to({ z: this.position.z - SIDEWALK_SIZE.z / 5 }, 250)
             .easing(TWEEN.Easing.Quadratic.Out);
 
             moveDis.start();
@@ -43,22 +43,23 @@ class Raccoon extends Group {
         }
         if (dir == 1) {
             const moveDis = new TWEEN.Tween(this.position)
-            .to({ z: this.position.z + SIDEWALK_SIZE.z / 20 }, 250)
+            .to({ z: this.position.z + SIDEWALK_SIZE.z / 5 }, 250)
             .easing(TWEEN.Easing.Quadratic.Out);
 
             moveDis.start();
             // this.position.z += SIDEWALK_SIZE.z / 20;
         }
+        
+    }
+
+    update(timestamp) {
+        TWEEN.update();
         if (this.position.z <= -SIDEWALK_SIZE.z) {
             this.position.z = -SIDEWALK_SIZE.z + 0.01;
         }
         if (this.position.z >= SIDEWALK_SIZE.z) {
             this.position.z = SIDEWALK_SIZE.z - 0.01;
         }
-    }
-
-    update(timestamp) {
-        TWEEN.update();
     }
 }
 
