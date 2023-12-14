@@ -43,9 +43,6 @@ class SeedScene extends Scene {
         this.add(raccoon);
         this.state.character = raccoon;
 
-        const sign = new Csign(this, new Vector3(0, 0, 0));
-        this.add(sign);
-
         console.log(this.state.updateList);
 
         // Populate GUI
