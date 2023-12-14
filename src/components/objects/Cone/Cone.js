@@ -1,11 +1,13 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './cone.glb';
+import { HittableObject } from '../HittableObject';
 
-const scale = new THREE.Vector3(1, 1, 1);
+const scale = new THREE.Vector3(2, 2, 2);
+const translation = new THREE.Vector3(0, 0.5, 0);
 
-class Cone extends THREE.Group {
-    constructor(parent, position,) {
+class Cone extends HittableObject {
+    constructor(parent, position, min_pos, name) {
         // Call parent Group() constructor
         super();
 
@@ -13,6 +15,7 @@ class Cone extends THREE.Group {
 
         this.name = 'cone';
         this.p = position;
+        this.p = position.add(translation);
         this.parent = parent;
 
         loader.load(MODEL, (gltf) => {
@@ -27,7 +30,7 @@ class Cone extends THREE.Group {
         });
 
 
-        parent.addToUpdateList(this);
+        //parent.addToUpdateList(this);
     }
 
 }

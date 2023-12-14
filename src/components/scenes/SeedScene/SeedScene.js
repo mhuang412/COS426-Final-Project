@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Vector3 } from 'three';
 import * as THREE from 'three';
-import { Scooter, Raccoon, Coin, Sidewalk, SIDEWALK_SIZE } from 'objects';
+import { Scooter, Raccoon, Coin, Cone, Sidewalk, SIDEWALK_SIZE } from 'objects';
 import { BasicLights } from 'lights';
 
 const nightColor = new Color(0x000000);
@@ -42,6 +42,9 @@ class SeedScene extends Scene {
         const raccoon = new Raccoon(this, new Vector3(0, 0, 0), Math.PI / 2);
         this.add(raccoon);
         this.state.character = raccoon;
+
+        const cone = new Cone(this, new Vector3(0, 0, 0));
+        this.add(cone);
 
         console.log(this.state.updateList);
 
