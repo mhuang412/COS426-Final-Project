@@ -1,39 +1,10 @@
 import * as Dat from 'dat.gui';
-import { Scene,
-         Color,
-         PlaneGeometry,
-         TextureLoader,
-         RepeatWrapping,
-         Mesh,
-         DoubleSide,
-         MeshStandardMaterial,
-         Texture} from 'three';
-import { Flower, Land } from 'objects';
+import { Scene, Color, Vector3 } from 'three';
+import { Raccoon, Sidewalk, SIDEWALK_SIZE } from 'objects';
 import { BasicLights } from 'lights';
 
-
-function createFloor() {
-    let floor;
-    const geometry = new PlaneGeometry(1000, 1000, 10, 10);
-    const texture = new TextureLoader().load("src/assets/dirt.jpg");
-    texture.wrapS = RepeatWrapping;
-    texture.wrapT = RepeatWrapping;
-    texture.repeat.set(100, 100);
-
-    const material = new MeshStandardMaterial({
-      map: texture,
-      color: 0xc4733b,
-    });
-
-    floor = new Mesh(geometry, material);
-    floor.material.side = DoubleSide;
-    floor.rotation.x = -Math.PI / 2;
-
-    floor.castShadow = false;
-    floor.receiveShadow = true;
-
-    return floor;
-}
+const nightColor = new Color(0x000000);
+const dayColor = new Color(0x7ec0ee);
 
 class SeedScene extends Scene {
     constructor() {
@@ -43,22 +14,27 @@ class SeedScene extends Scene {
         // Init state
         this.state = {
             // gui: new Dat.GUI(), // Create GUI for scene
-            // rotationSpeed: 1,
+            rotationSpeed: 0,
             updateList: [],
+            terrainList: [],
         };
 
         // Set background to a nice color
-        this.background = new Color(0xADD8E6);
+        this.background = new Color(0x7ec0ee);
 
         // Add meshes to scene
-        // const land = new Land();
         // const flower = new Flower(this);
-        const lights = new BasicLights();
+        const lights = new BasicLights(this);
         this.add(lights);
-
-        // add floor
-        const floor = createFloor();
-        this.add(floor);
+        let min_pos = -2;
+        let max_pos = 5;
+        let sidewalk;
+        for (let i = min_pos; i < max_pos; i++) {
+            sidewalk = new Sidewalk(this, new Vector3(SIDEWALK_SIZE.x * i, 0, 0), -min_pos, max_pos, i);
+            this.add(sidewalk);
+        }
+        const raccoon = new Raccoon(this, new Vector3(0, 0, 0));
+        this.add(raccoon)
 
         // Populate GUI
         // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -70,12 +46,13 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
+        // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
 
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+        this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));
     }
 }
 
