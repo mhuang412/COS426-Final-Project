@@ -15,6 +15,7 @@ import { SeedScene } from 'scenes';
 const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
+let keypress = null;
 
 
 // Set up camera
@@ -73,3 +74,16 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+
+window.addEventListener('keydown', (event) => {
+    if (event.repeat) return;
+    if (event.key == "ArrowLeft") scene.state.character.changeLanes(-1);
+    if (event.key == "ArrowRight") scene.state.character.changeLanes(1);
+    console.log(keypress);
+}
+, false);
+
+window.addEventListener('keyup', (event) => {
+    if (event.key == keypress) keypress = null;
+}
+, false);

@@ -4,7 +4,7 @@ import Raccoon from '../Raccoon';
 
 const scale = new Vector3(1, 1, 1);
 
-class Sidewalk extends Group {
+class Character extends Group {
     constructor(parent, position) {
         super();
 
@@ -38,6 +38,5 @@ class Sidewalk extends Group {
     }
 }
 
-export default Sidewalk;
+export default Character;
 
-export const SIDEWALK_SIZE = new Vector3(3.48, 3.48, 0.12);

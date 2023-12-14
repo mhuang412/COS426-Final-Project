@@ -1,6 +1,7 @@
 import { Group, Vector3, Box3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './raccoon.gltf';
+import { SIDEWALK_SIZE } from '../Sidewalk';
 
 const scale = new Vector3(1, 1, 1);
 
@@ -27,6 +28,15 @@ class Raccoon extends Group {
         this.position.z = position.x;
         this.rotateY(rotation);
         // parent.addToUpdateList(this);
+    }
+
+    changeLanes(dir) {
+        if (dir == -1) {
+            this.position.z -= SIDEWALK_SIZE.z;
+        }
+        if (dir == 1) {
+            this.position.z += SIDEWALK_SIZE.z;
+        }
     }
 }
 

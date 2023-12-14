@@ -17,6 +17,7 @@ class SeedScene extends Scene {
             rotationSpeed: 0,
             updateList: [],
             terrainList: [],
+            character: null,
         };
 
         // Set background to a nice color
@@ -32,13 +33,14 @@ class SeedScene extends Scene {
         for (let i = min_pos; i < max_pos; i++) {
             sidewalk = new Sidewalk(this, new Vector3(SIDEWALK_SIZE.x * i, 0, 0), min_pos, max_pos, i);
             this.add(sidewalk);
-            this.state.updateList.push(sidewalk);
+            this.state.terrainList.push(sidewalk);
         }
 
         const coin = new Coin(this, new Vector3(0, 0, 0));
         this.add(coin);
         const raccoon = new Raccoon(this, new Vector3(0, 0, 0), Math.PI / 2);
-        this.add(raccoon)
+        this.add(raccoon);
+        this.state.character = raccoon;
 
         console.log(this.state.updateList);
 
@@ -51,14 +53,11 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
-        // this.rotation.y = (rotationSpeed * timeStamp) / 10000;
-
         // Call update for each object in the updateList
-        for (const obj of updateList) {
-            // if (timeStamp < 1000) {
-            //     console.log(obj);
-            // }
+        for (const obj of this.state.updateList) {
+            obj.update(timeStamp);
+        }
+        for (const obj of this.state.terrainList) {
             obj.update(timeStamp);
         }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));

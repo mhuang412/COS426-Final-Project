@@ -41,4 +41,4 @@ class Sidewalk extends Group {
 
 export default Sidewalk;
 
-export const SIDEWALK_SIZE = new Vector3(3.48, 3.48, 0.12);
+export const SIDEWALK_SIZE = new Vector3(3.48, 0.12, 3.48);
