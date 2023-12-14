@@ -1,64 +1,39 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, SphereGeometry, MeshPhongMaterial, Mesh, BoxGeometry, MeshLambertMaterial} from 'three';
+import { Scene,
+         Color,
+         PlaneGeometry,
+         TextureLoader,
+         RepeatWrapping,
+         Mesh,
+         DoubleSide,
+         MeshStandardMaterial,
+         Texture} from 'three';
 import { Flower, Land } from 'objects';
 import { BasicLights } from 'lights';
 
-var LEVEL = [
-    '# # # # # # # # # # # # # # # # # # # # # # # # # # # #',
-    '# . . . . . . . . . . . . # # . . . . . . . . . . . . #',
-    '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-    '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-    '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-    '# . . . . . . . . . . . . . . . . . . . . . . . . . . #',
-    '# . # # # # . # # . # # # # # # # # . # # . # # # # . #',
-    '# . # # # # . # # . # # # # # # # # . # # . # # # # . #',
-    '# . . . . . . # # . . . . # # . . . . # # . . . . . . #',
-    '# # # # # # . # # # # #   # #   # # # # # . # # # # # #',
-    '          # . # # # # #   # #   # # # # # . #          ',
-    '          # . # #                     # # . #          ',
-    '          # . # #   # # # # # # # #   # # . #          ',
-    '# # # # # # . # #   #             #   # # . # # # # # #',
-    '            .       #             #       .            ',
-    '# # # # # # . # #   #             #   # # . # # # # # #',
-    '          # . # #   # # # # # # # #   # # . #          ',
-    '          # . # #                     # # . #          ',
-    '          # . # #   # # # # # # # #   # # . #          ',
-    '# # # # # # . # #   # # # # # # # #   # # . # # # # # #',
-    '# . . . . . . . . . . . . # # . . . . . . . . . . . . #',
-    '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-    '# . # # # # . # # # # # . # # . # # # # # . # # # # . #',
-    '# . . . # # . . . . . . . .   . . . . . . . # # . . . #',
-    '# # # . # # . # # . # # # # # # # # . # # . # # . # # #',
-    '# # # . # # . # # . # # # # # # # # . # # . # # . # # #',
-    '# . . . . . . # # . . . . # # . . . . # # . . . . . . #',
-    '# . # # # # # # # # # # . # # . # # # # # # # # # # . #',
-    '# . # # # # # # # # # # . # # . # # # # # # # # # # . #',
-    '# . . . . . . . . . . . . . . . . . . . . . . . . . . #',
-    '# # # # # # # # # # # # # # # # # # # # # # # # # # # #'
-    ];
 
-var createDot = function () {
-    var dotGeometry = new SphereGeometry(0.05);
-    var dotMaterial = new MeshPhongMaterial({ color: 0xFFDAB9 });
-    return function () {
-        var dot = new Mesh(dotGeometry, dotMaterial);
-        dot.isDot = true;
+function createFloor() {
+    let floor;
+    const geometry = new PlaneGeometry(1000, 1000, 10, 10);
+    const texture = new TextureLoader().load("src/assets/dirt.jpg");
+    texture.wrapS = RepeatWrapping;
+    texture.wrapT = RepeatWrapping;
+    texture.repeat.set(100, 100);
 
-        return dot;
-    };
-}();
+    const material = new MeshStandardMaterial({
+      map: texture,
+      color: 0xc4733b,
+    });
 
-var createWall = function () {
-    var wallGeometry = new BoxGeometry(1, 1, 1);
-    var wallMaterial = new MeshLambertMaterial({ color: 'blue' });
+    floor = new Mesh(geometry, material);
+    floor.material.side = DoubleSide;
+    floor.rotation.x = -Math.PI / 2;
 
-    return function () {
-        var wall = new Mesh(wallGeometry, wallMaterial);
-        wall.isWall = true;
+    floor.castShadow = false;
+    floor.receiveShadow = true;
 
-        return wall;
-    };
-}();
+    return floor;
+}
 
 class SeedScene extends Scene {
     constructor() {
@@ -73,68 +48,17 @@ class SeedScene extends Scene {
         };
 
         // Set background to a nice color
-        this.background = new Color(0x000000);
-
-        // make the level map in the scene
-        var map = {};
-        map.bottom = -(LEVEL.length - 1);
-        map.top = 0;
-        map.left = 0;
-        map.right = 0;
-        map.numDots = 0;
-        // map.pacmanSpawn = null;
-        // map.ghostSpawn = null;
-
-        var x, y;
-        for (var row = 0; row < LEVEL.length; row++) {
-            // Set the coordinates of the map so that they match the
-            // coordinate system for objects.
-            y = -row;
-
-            map[y] = {};
-
-            // Get the length of the longest row in the level definition.
-            var length = Math.floor(LEVEL[row].length / 2);
-            //map.right = Math.max(map.right, length - 1);
-            map.right = Math.max(map.right, length);
-
-            // Skip every second element, which is just a space for readability.
-            for (var column = 0; column < LEVEL[row].length; column += 2) {
-                x = Math.floor(column / 2);
-
-                var cell = LEVEL[row][column];
-                var object = null;
-
-                if (cell === '#') {
-                    object = createWall();
-                } else if (cell === '.') {
-                    object = createDot();
-                    map.numDots += 1;
-                }
-                // } else if (cell === 'o') {
-                //     object = createPowerPellet();
-                // } else if (cell === 'P') {
-                //     map.pacmanSpawn = new THREE.Vector3(x, y, 0);
-                // } else if (cell === 'G') {
-                //     map.ghostSpawn = new THREE.Vector3(x, y, 0);
-                // }
-
-                if (object !== null) {
-                    object.position.set(x, y, 0);
-                    map[y][x] = object;
-                    this.add(object);
-                }
-            }
-        }
-
-        map.centerX = (map.left + map.right) / 2;
-        map.centerY = (map.bottom + map.top) / 2;
+        this.background = new Color(0xADD8E6);
 
         // Add meshes to scene
         // const land = new Land();
         // const flower = new Flower(this);
         const lights = new BasicLights();
         this.add(lights);
+
+        // add floor
+        const floor = createFloor();
+        this.add(floor);
 
         // Populate GUI
         // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
