@@ -107,7 +107,7 @@ window.addEventListener('keydown', (event) => {
 }
 , false);
 
-window.addEventListener('keyup', (event) => {
-    if (event.key == keypress) keypress = null;
-}
-, false);
+// window.addEventListener('keyup', (event) => {
+//     if (event.key == keypress) keypress = null;
+// }
+// , false);

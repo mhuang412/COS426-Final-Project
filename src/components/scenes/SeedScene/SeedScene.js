@@ -6,6 +6,9 @@ import { BasicLights } from 'lights';
 
 const nightColor = new Color(0x000000);
 const dayColor = new Color(0x7ec0ee);
+const max_pos = 10;
+const min_pos = -2;
+const lanes = [-1, 0, 1];
 
 class SeedScene extends Scene {
     constructor() {
@@ -18,6 +21,7 @@ class SeedScene extends Scene {
             rotationSpeed: 0,
             updateList: [],
             terrainList: [],
+            hittableList: [],
             character: null,
         };
 
@@ -28,8 +32,6 @@ class SeedScene extends Scene {
         // const flower = new Flower(this);
         const lights = new BasicLights(this);
         this.add(lights);
-        let min_pos = -2;
-        let max_pos = 10;
         let sidewalk;
         for (let i = min_pos; i < max_pos; i++) {
             sidewalk = new Sidewalk(this, new Vector3(SIDEWALK_SIZE.x * i, 0, 0), min_pos, max_pos, i);
@@ -37,8 +39,6 @@ class SeedScene extends Scene {
             this.state.terrainList.push(sidewalk);
         }
 
-        const coin = new Coin(this, new Vector3(0, 0, 0));
-        this.add(coin);
         const raccoon = new Raccoon(this, new Vector3(0, 0, 0), Math.PI / 2);
         this.add(raccoon);
         this.state.character = raccoon;
@@ -61,7 +61,24 @@ class SeedScene extends Scene {
         for (const obj of this.state.terrainList) {
             obj.update(timeStamp);
         }
+        for (const obj of this.state.hittableList) {
+            obj.update(timeStamp);
+            if (obj.deactivate) {
+                if (obj.isHit) {
+                    console.log("Hit");
+                }
+                this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
+                this.remove(obj);
+            }
+        }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));
+
+        if (Math.random() < 0.01) {
+            lanes[Math.floor(Math.random() * lanes.length)];
+            const coin = new Coin(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
+            this.add(coin);
+            this.state.hittableList.push(coin);
+        }
     }
 }
 

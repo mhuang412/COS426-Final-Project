@@ -1,18 +1,18 @@
 {
-  "name": "lower-case-dashed-name-of-project",
+  "name": "raccoon-rush",
   "repository": "cos426finalproject",
   "version": "0.1.0",
-  "title": "PROJECT TITLE HERE",
-  "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
+  "title": "Raccoon Rush",
+  "description": "Endless runner game with raccoon!",
   "keywords": [
     "Princeton",
     "graphics",
     "three.js",
     "COS 426",
-    "keywor0d",
-    "keyword1",
-    "keyword2-etc",
-    "but this last entry CANNOT have a comma after it ->"
+    "raccoon",
+    "coins",
+    "game",
+    "running"
   ],
   "scripts": {
     "start": "webpack-dev-server --mode development --output-public-path \"\"",

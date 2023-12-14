@@ -28,6 +28,10 @@ class Sidewalk extends Group {
 
     update(timeStamp) {
         // console.log(this.name);
+        this.move(timeStamp);
+    }
+
+    move(timeStamp) {
         this.p.x -= SIDEWALK_SIZE.x /30;
         this.position.x -= SIDEWALK_SIZE.x/30;
         if (this.p.x < this.min_pos * SIDEWALK_SIZE.x) {
