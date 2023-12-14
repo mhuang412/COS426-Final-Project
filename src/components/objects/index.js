@@ -5,3 +5,5 @@ export * from './Raccoon';
 export * from './Coin';
 export * from './Scooter';
 export * from './Cone';
+export * from './Worker';
+export * from './Sign';
