@@ -4,16 +4,16 @@ import MODEL from './sign.glb';
 import { HittableObject } from '../HittableObject'; 
 
 const scale = new Vector3(1, 1, 1);
-const translation = new Vector3(0, 0.5, 0);
+const translation = new Vector3(0, 2.3, 0);
 
-class Sign extends HittableObject {
+class Csign extends HittableObject {
     constructor(parent, position, min_pos, name) {
         // Call parent Group() constructor
         super(parent, position, min_pos, name);
 
         const loader = new GLTFLoader();
 
-        this.name = 'sign';
+        this.name = 'csign';
         this.p = position;
         this.p = position.add(translation);
         this.parent = parent;
@@ -31,7 +31,7 @@ class Sign extends HittableObject {
         this.position.y = this.p.y;
         this.position.z = this.p.z;
 
-        parent.addToUpdateList(this);
+        //parent.addToUpdateList(this);
     }
 
     update(timeStamp) {
@@ -42,4 +42,4 @@ class Sign extends HittableObject {
     }
 }
 
-export default Sign;
+export default Csign;
