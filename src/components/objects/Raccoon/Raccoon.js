@@ -1,6 +1,6 @@
 import { Group, Vector3, Box3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './raccoon.gltf';
+import MODEL from './raccoon.glb';
 import { SIDEWALK_SIZE } from '../Sidewalk';
 
 const scale = new Vector3(0.65, 0.65, 0.65);
