@@ -48,7 +48,7 @@ let audioLoader = new THREE.AudioLoader();
 let bgmusic = new THREE.Audio(listener);
 sounds['bgmusic'] = bgmusic;
 audioLoader.load(
-    'https://raw.githubusercontent.com/mhuang412/COS426-Final-Project/main/src/components/sounds/eyeofthetiger.m4a',
+    'https://raw.githubusercontent.com/mhuang412/COS426-Final-Project/main/src/components/sounds/eyeofthetiger.mp3',
     function (buffer) {
         bgmusic.setBuffer(buffer);
         bgmusic.setLoop(true);
