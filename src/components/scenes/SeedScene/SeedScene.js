@@ -33,6 +33,7 @@ class SeedScene extends Scene {
         this.gameRunning = false;
         this.gameOver = false;
         this.gamePaused = false;
+        this.coinsCollected = 0;
 
         // Add meshes to scene
         // const flower = new Flower(this);
@@ -70,16 +71,12 @@ class SeedScene extends Scene {
         for (const obj of this.state.hittableList) {
             obj.update(timeStamp);
             if (obj.deactivate) {
-                if (obj.isHit) {
-                    console.log("Hit");
-                }
-                if (obj.name == 'coin') {
+                if (obj.isHit && obj.name == 'coin') {
+                    this.coinsCollected += 1;
                     this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
                     this.remove(obj);
-                } else {
-                    this.gameOver = true;
+                // TODO: stop game when we it any other obstacle
                 }
-
             }
         }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));

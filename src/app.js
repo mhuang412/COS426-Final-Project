@@ -10,7 +10,7 @@ import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
-//import './app.css';
+import './app.css';
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
@@ -73,6 +73,9 @@ const onAnimationFrameHandler = (timeStamp) => {
         sounds['bgmusic'].pause();
     }
     scene.update && scene.update(timeStamp);
+
+    coinText.innerText = "Coins: " + scene.coinsCollected;
+
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
@@ -89,10 +92,13 @@ document.addEventListener('keydown', function (event) {
 });
 
 // Set up coins counter
-var coinsCollected = 0;
-var lifeDiv = document.createElement('div');
-lifeDiv.id = 'coinscollected';
-lifeDiv.innerHTML = 'Coins: ';
+var coinDiv = document.createElement('div');
+coinDiv.id = 'coinscollected';
+document.body.appendChild(coinDiv);
+
+let coinText = document.createElement('h1');
+coinText.innerText = "Coins: " + scene.coinsCollected;
+coinDiv.appendChild(coinText);
 
 // Resize Handler
 const windowResizeHandler = () => {

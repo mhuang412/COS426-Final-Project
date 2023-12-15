@@ -17,7 +17,7 @@ class HittableObject extends Group {
 
     checkCollision(character) {
         if (this.isLoaded) {
-            console.log(this.box.min);
+            // console.log(this.box.min);
             if (this.box.intersectsBox(character.box)) {
                 console.log("box intersects");
                 this.isHit = true;

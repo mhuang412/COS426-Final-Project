@@ -20,7 +20,7 @@ class Cone extends HittableObject {
 
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.set(scale.x, scale.y, scale.z);
-            this.box = new Box3().setFromObject(gltf.scene, true).translate(this.p);
+            this.box = new THREE.Box3().setFromObject(gltf.scene, true).translate(this.p);
             let model = gltf.scene;
             this.add(model);
             this.isLoaded = true;
