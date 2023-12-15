@@ -20,17 +20,29 @@ class Cone extends HittableObject {
 
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.set(scale.x, scale.y, scale.z);
- 
+            this.box = new Box3().setFromObject(gltf.scene, true).translate(this.p);
             let model = gltf.scene;
-            model.position.setX(position.x);
-            model.position.setY(position.y);
-            model.position.setZ(position.z);
-
             this.add(model);
+            this.isLoaded = true;
+            // let model = gltf.scene;
+            // model.position.setX(position.x);
+            // model.position.setY(position.y);
+            // model.position.setZ(position.z);
+
+            // this.add(model);
+
         });
+        this.position.x = this.p.x;
+        this.position.y = this.p.y;
+        this.position.z = this.p.z;
 
+        parent.addToUpdateList(this);
+    }
 
-        //parent.addToUpdateList(this);
+    update(timeStamp) {
+        if (this.deactivate) return;
+        this.move(timeStamp);
+        this.checkCollision(this.parent.state.character);
     }
 
 }

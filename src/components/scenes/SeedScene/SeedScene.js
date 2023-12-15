@@ -28,6 +28,12 @@ class SeedScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
+        // game status
+        this.gameStart = true;
+        this.gameRunning = false;
+        this.gameOver = false;
+        this.gamePaused = false;
+
         // Add meshes to scene
         // const flower = new Flower(this);
         const lights = new BasicLights(this);
@@ -67,18 +73,33 @@ class SeedScene extends Scene {
                 if (obj.isHit) {
                     console.log("Hit");
                 }
-                this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
-                this.remove(obj);
+                if (obj.name == 'coin') {
+                    this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
+                    this.remove(obj);
+                } else {
+                    this.gameOver = true;
+                }
+
             }
         }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));
 
+        // generate coins
         if (Math.random() < 0.01) {
             lanes[Math.floor(Math.random() * lanes.length)];
             const coin = new Coin(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(coin);
             this.state.hittableList.push(coin);
         }
+
+        // generate cones
+        if (Math.random() < 0.005) {
+            lanes[Math.floor(Math.random() * lanes.length)];
+            const cone = new Cone(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
+            this.add(cone);
+            this.state.hittableList.push(cone);
+        }
+
     }
 }
 

@@ -57,16 +57,21 @@ audioLoader.load(
     }
 );
 
-// Game states
-let gameStart = true;
-let gameOver = false;
-let gameRunning = false;
-//let gamePaused = false;
+// // Game states
+// let gameStart = true;
+// let gameOver = false;
+// let gameRunning = false;
+// //let gamePaused = false;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     renderer.render(scene, camera);
+    // check if game is over
+    if (scene.gameOver) {
+        console.log("game OVER");
+        sounds['bgmusic'].pause();
+    }
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
@@ -75,9 +80,9 @@ window.requestAnimationFrame(onAnimationFrameHandler);
 // Start theme music - spacebar click
 document.addEventListener('keydown', function (event) {
     if (event.key === ' ') {
-        if (gameStart) {
-            gameStart = false;
-            gameRunning = true;
+        if (scene.gameStart) {
+            scene.gameStart = false;
+            scene.gameRunning = true;
             sounds['bgmusic'].play();
         }
     }
