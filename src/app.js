@@ -57,6 +57,27 @@ audioLoader.load(
     }
 );
 
+// make game over window
+let endContainer = document.createElement('div');
+endContainer.id = "game-over-container";
+document.body.appendChild(endContainer);
+
+// make instructions title
+let endTitle = document.createElement('h1');
+endTitle.innerText = "GAME OVER";
+endContainer.appendChild(endTitle);
+
+// create a line break between title and content
+let endText = document.createElement('p');
+endText.innerHTML = "You crashed into an obstacle :(";
+endContainer.appendChild(endText);
+
+let endText2 = document.createElement('p');
+endText2.innerHTML = "Hit spacebar to play again!";
+endContainer.appendChild(endText2);
+
+endContainer.style.visibility = 'hidden';
+
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
@@ -64,6 +85,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     // check if game is over
     if (scene.gameOver) {
         console.log("game OVER");
+        endContainer.style.visibility = 'visible';
         sounds['bgmusic'].pause();
         scene.gameOver = false;
         scene.gameStart = true;
@@ -89,11 +111,12 @@ document.addEventListener('keydown', function (event) {
             scene.gameOver = false;
             scene.gameRunning = true;
             instructionsContainer.style.visibility = 'hidden';
+            endContainer.style.visibility = 'hidden';
         }
     }
 });
 
-// HTML STUFF
+// HTML STUFF, inspo from https://github.com/justin-bi/3D-Breakout
 // Set up coins counter
 var coinDiv = document.createElement('div');
 coinDiv.id = 'coinscollected';
