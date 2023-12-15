@@ -36,7 +36,6 @@ class Csign extends HittableObject {
     update(timeStamp) {
         if (this.deactivate) return;
         this.move(timeStamp);
-        this.move(timeStamp);
         this.checkCollision(this.parent.state.character);
     }
 }

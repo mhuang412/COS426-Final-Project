@@ -76,6 +76,7 @@ class SeedScene extends Scene {
         }
 
         const raccoon = new Raccoon(this, new Vector3(0, 0, 0), Math.PI / 2);
+        // const raccoon = new Scooter(this, new Vector3(0, 0, 0), min_pos, "scooter");
         this.add(raccoon);
         this.state.character = raccoon;
         this.state.updateList.push(raccoon);
@@ -153,7 +154,6 @@ class SeedScene extends Scene {
         // SPAWN COINS + OBSTACLES
         // generate coins
         if (Math.random() < 0.01) {
-            lanes[Math.floor(Math.random() * lanes.length)];
             const coin = new Coin(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(coin);
             this.state.coinList.push(coin);
@@ -161,7 +161,6 @@ class SeedScene extends Scene {
 
         // generate cones
         if (Math.random() < 0.005) {
-            lanes[Math.floor(Math.random() * lanes.length)];
             const cone = new Cone(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(cone);
             this.state.hittableList.push(cone);
@@ -169,24 +168,22 @@ class SeedScene extends Scene {
 
         // generate csigns
         if (Math.random() < 0.005) {
-            lanes[Math.floor(Math.random() * lanes.length)];
             const csign = new Csign(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(csign);
             this.state.hittableList.push(csign);
         }
 
         // generate workers
-        if (Math.random() < 0.003) {
-            lanes[Math.floor(Math.random() * lanes.length)];
+        if (Math.random() < 0.0005) {
             const worker = new Worker(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(worker);
             this.state.hittableList.push(worker);
         }
 
         // generate scooters
-        if (Math.random() < 0.0005) {
-            lanes[Math.floor(Math.random() * lanes.length)];
-            const scooter = new Scooter(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
+        if (Math.random() < 0.005) {
+            const lane = Math.random() < 0.5 ? 0.5 : -0.5;
+            const scooter = new Scooter(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lane), min_pos, max_pos, timeStamp);
             this.add(scooter);
             this.state.hittableList.push(scooter);
         }

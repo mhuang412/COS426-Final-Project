@@ -17,9 +17,7 @@ class HittableObject extends Group {
 
     checkCollision(character) {
         if (this.isLoaded) {
-            // console.log(this.box.min);
             if (this.box.intersectsBox(character.box)) {
-                console.log("box intersects");
                 this.isHit = true;
                 this.deactivate = true;
             }
@@ -33,7 +31,6 @@ class HittableObject extends Group {
         this.box.translate(new Vector3(dist, 0, 0));
         if (this.position.x < this.min_pos * SIDEWALK_SIZE.x) {
             this.deactivate = true;
-            console.log(this.position.x);
         }
     }
 }

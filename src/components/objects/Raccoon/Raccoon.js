@@ -22,7 +22,7 @@ class Raccoon extends Group {
             let model = gltf.scene;
             model.scale.set(scale.x, scale.y, scale.z);
             this.add(model);
-            //this.box = new Box3().setFromObject(gltf.scene, true);
+            this.box = new Box3().setFromObject(gltf.scene, true);
             console.log(this.box);
         });
         this.position.x = position.x;

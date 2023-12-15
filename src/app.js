@@ -101,7 +101,7 @@ const onAnimationFrameHandler = (timeStamp) => {
         }
         endText3.innerHTML = "High score: " + highScore;
 
-        sounds['bgmusic'].pause();
+        sounds['bgmusic'].stop();
         scene.gameOver = false;
         scene.gameStart = true;
         scene.gameRunning = false;
@@ -194,7 +194,6 @@ window.addEventListener('resize', windowResizeHandler, false);
 
 window.addEventListener('keydown', (event) => {
     // if (event.repeat) return;
-    console.log(event.key);
     if (event.key == "ArrowLeft") scene.state.character.changeLanes(-1);
     if (event.key == "ArrowRight") scene.state.character.changeLanes(1);
     if (event.repeat) return;
