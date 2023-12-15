@@ -10,6 +10,33 @@ const max_pos = 10;
 const min_pos = -2;
 const lanes = [-1, 0, 1];
 
+// Add sounds
+let listener = new THREE.AudioListener();
+let sounds = [];
+let audioLoader = new THREE.AudioLoader();
+
+let hit = new THREE.Audio(listener);
+sounds['hit'] = hit;
+audioLoader.load(
+    'https://raw.githubusercontent.com/mhuang412/COS426-Final-Project/main/src/components/sounds/hit.mp3',
+    function (buffer) {
+        hit.setBuffer(buffer);
+        hit.setLoop(false);
+        hit.setVolume(0.50);
+    }
+);
+
+let ding = new THREE.Audio(listener);
+sounds['ding'] = ding;
+audioLoader.load(
+    'https://raw.githubusercontent.com/mhuang412/COS426-Final-Project/main/src/components/sounds/ding.mp3',
+    function (buffer) {
+        ding.setBuffer(buffer);
+        ding.setLoop(false);
+        ding.setVolume(0.50);
+    }
+);
+
 class SeedScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
@@ -98,6 +125,7 @@ class SeedScene extends Scene {
             obj.update(timeStamp);
             if (obj.deactivate) {
                 if (obj.isHit) {
+                    // sounds['ding'].play();
                     this.coinsCollected += 1;
                     this.state.coinList.splice(this.state.coinList.indexOf(obj), 1);
                     this.remove(obj);
@@ -109,6 +137,7 @@ class SeedScene extends Scene {
             obj.update(timeStamp);
             if (obj.deactivate) {
                 if (obj.isHit) {
+                    sounds['hit'].play();
                     this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
                     this.remove(obj);
                     this.death();
@@ -147,7 +176,7 @@ class SeedScene extends Scene {
         }
 
         // generate workers
-        if (Math.random() < 0.0005) {
+        if (Math.random() < 0.003) {
             lanes[Math.floor(Math.random() * lanes.length)];
             const worker = new Worker(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(worker);

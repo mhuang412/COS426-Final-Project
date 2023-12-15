@@ -92,7 +92,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     renderer.render(scene, camera);
     // check if game is over
     if (scene.gameOver) {
-        console.log("game OVER");
+        // console.log("game OVER");
         endContainer.style.visibility = 'visible';
         // change high scores
         endText2.innerHTML = "Your score: " + scene.coinsCollected;
