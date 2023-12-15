@@ -42,7 +42,7 @@ controls.update();
 
 // Add music
 let listener = new THREE.AudioListener();
-camera.add(listener);
+// camera.add(listener);
 let sounds = [];
 let audioLoader = new THREE.AudioLoader();
 
@@ -56,12 +56,6 @@ audioLoader.load(
         bgmusic.setVolume(0.50);
     }
 );
-
-// // Game states
-let gameStart = true;
-// let gameOver = false;
-// let gameRunning = false;
-// //let gamePaused = false;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
@@ -85,14 +79,17 @@ window.requestAnimationFrame(onAnimationFrameHandler);
 // Start theme music - spacebar click
 document.addEventListener('keydown', function (event) {
     if (event.key === ' ') {
-        if (gameStart) {
-            scene.gameStart = false;
-            scene.gameRunning = true;
+        if (scene.gameStart) {
             sounds['bgmusic'].play();
+            scene.gameStart = false;
+            scene.gameOver = false;
+            scene.gameRunning = true;
+            instructionsContainer.style.visibility = 'hidden';
         }
     }
 });
 
+// HTML STUFF
 // Set up coins counter
 var coinDiv = document.createElement('div');
 coinDiv.id = 'coinscollected';
@@ -101,6 +98,46 @@ document.body.appendChild(coinDiv);
 let coinText = document.createElement('h1');
 coinText.innerText = "Coins: " + scene.coinsCollected;
 coinDiv.appendChild(coinText);
+
+// make title
+let titleContainer = document.createElement('div');
+titleContainer.id = "title-container";
+document.body.appendChild(titleContainer);
+
+let titleText = document.createElement('h1');
+titleText.innerText = "RACCOON RUSH";
+titleContainer.appendChild(titleText);
+
+// make instructions window
+let instructionsContainer = document.createElement('div');
+instructionsContainer.id = "instructions-container";
+document.body.appendChild(instructionsContainer);
+
+// make instructions title
+let instructionsTitle = document.createElement('h1');
+instructionsTitle.innerText = "INSTRUCTIONS";
+instructionsContainer.appendChild(instructionsTitle);
+
+// create a line break between title and content
+let instructionsText = document.createElement('p');
+instructionsText.innerHTML = "Move the raccoon left and right to collect coins and avoid obstacles!";
+instructionsContainer.appendChild(instructionsText);
+
+// make instructions table
+let table = document.createElement('table');
+instructionsContainer.appendChild(table);
+
+let space = table.insertRow();
+space.insertCell(0).innerHTML = "[SPACEBAR]";
+space.insertCell(1).innerHTML = "Start game";
+
+let left = table.insertRow();
+left.insertCell(0).innerHTML = "[&#8592;]";
+left.insertCell(1).innerHTML = "Move racoon to the left";
+
+let right = table.insertRow();
+right.insertCell(0).innerHTML = "[&#8594;]";
+right.insertCell(1).innerHTML = "Move raccoon to the right";
 
 // Resize Handler
 const windowResizeHandler = () => {
@@ -118,7 +155,7 @@ window.addEventListener('keydown', (event) => {
     if (event.key == "ArrowLeft") scene.state.character.changeLanes(-1);
     if (event.key == "ArrowRight") scene.state.character.changeLanes(1);
     if (event.repeat) return;
-    if (event.key == " ") scene.state.isPlaying = true;
+    // if (event.key == " ") scene.state.isPlaying = true;
     //console.log(keypress);
 }
 , false);
