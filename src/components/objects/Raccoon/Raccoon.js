@@ -30,7 +30,6 @@ class Raccoon extends Group {
         this.position.z = position.x;
         this.rotateY(rotation);
         this.box = new Box3();
-        parent.addToUpdateList(this);
     }
 
     changeLanes(dir) {

@@ -65,6 +65,10 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (scene.gameOver) {
         console.log("game OVER");
         sounds['bgmusic'].pause();
+        scene.gameOver = false;
+        scene.gameStart = true;
+        scene.gameRunning = false;
+        scene.gamePaused = false;
     }
     if (scene.gameRunning) {
         scene.update && scene.update(timeStamp);
