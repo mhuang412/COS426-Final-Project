@@ -58,7 +58,7 @@ audioLoader.load(
 );
 
 // // Game states
-// let gameStart = true;
+let gameStart = true;
 // let gameOver = false;
 // let gameRunning = false;
 // //let gamePaused = false;
@@ -83,7 +83,7 @@ window.requestAnimationFrame(onAnimationFrameHandler);
 // Start theme music - spacebar click
 document.addEventListener('keydown', function (event) {
     if (event.key === ' ') {
-        if (scene.gameStart) {
+        if (gameStart) {
             scene.gameStart = false;
             scene.gameRunning = true;
             sounds['bgmusic'].play();

@@ -1,7 +1,7 @@
 import { Group, Box3, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './sign.glb';
-import { HittableObject } from '../HittableObject'; 
+import { HittableObject } from '../HittableObject';
 
 const scale = new Vector3(1, 1, 1);
 const translation = new Vector3(0, 2.3, 0);
@@ -19,7 +19,6 @@ class Csign extends HittableObject {
         this.parent = parent;
 
         loader.load(MODEL, (gltf) => {
-            gltf.scene.rotateY(Math.PI/2);
             gltf.scene.scale.set(scale.x, scale.y, scale.z);
             this.box = new Box3().setFromObject(gltf.scene, true).translate(this.p);
             let model = gltf.scene;
@@ -31,12 +30,11 @@ class Csign extends HittableObject {
         this.position.y = this.p.y;
         this.position.z = this.p.z;
 
-        //parent.addToUpdateList(this);
+        parent.addToUpdateList(this);
     }
 
     update(timeStamp) {
         if (this.deactivate) return;
-        this.rotateY(Math.PI/100);
         this.move(timeStamp);
         this.checkCollision(this.parent.state.character);
     }

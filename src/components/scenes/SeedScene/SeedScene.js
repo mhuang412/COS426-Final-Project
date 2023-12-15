@@ -75,12 +75,13 @@ class SeedScene extends Scene {
                     this.coinsCollected += 1;
                     this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
                     this.remove(obj);
-                // TODO: stop game when we it any other obstacle
+                // TODO: stop game when we hit any other obstacle
                 }
             }
         }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));
 
+        // SPAWN COINS + OBSTACLES
         // generate coins
         if (Math.random() < 0.01) {
             lanes[Math.floor(Math.random() * lanes.length)];
@@ -95,6 +96,30 @@ class SeedScene extends Scene {
             const cone = new Cone(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(cone);
             this.state.hittableList.push(cone);
+        }
+
+        // generate csigns
+        if (Math.random() < 0.005) {
+            lanes[Math.floor(Math.random() * lanes.length)];
+            const csign = new Csign(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
+            this.add(csign);
+            this.state.hittableList.push(csign);
+        }
+
+        // generate workers
+        if (Math.random() < 0.0005) {
+            lanes[Math.floor(Math.random() * lanes.length)];
+            const worker = new Worker(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
+            this.add(worker);
+            this.state.hittableList.push(worker);
+        }
+
+        // generate scooters
+        if (Math.random() < 0.0005) {
+            lanes[Math.floor(Math.random() * lanes.length)];
+            const scooter = new Scooter(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
+            this.add(scooter);
+            this.state.hittableList.push(scooter);
         }
 
     }
