@@ -94,6 +94,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (scene.gameOver) {
         // console.log("game OVER");
         endContainer.style.visibility = 'visible';
+        titleContainer.style.visibility = 'visible';
         // change high scores
         endText2.innerHTML = "Your score: " + scene.coinsCollected;
         if (scene.coinsCollected > highScore) {
@@ -127,6 +128,7 @@ document.addEventListener('keydown', function (event) {
             scene.gameOver = false;
             scene.gameRunning = true;
             instructionsContainer.style.visibility = 'hidden';
+            titleContainer.style.visibility = 'hidden';
             endContainer.style.visibility = 'hidden';
         }
     }
