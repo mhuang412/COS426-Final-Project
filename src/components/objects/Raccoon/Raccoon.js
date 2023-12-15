@@ -5,10 +5,10 @@ import { SIDEWALK_SIZE } from '../Sidewalk';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
 
-const scale = new Vector3(0.65, 0.65, 0.65);
+const scale = new Vector3(0.5, 0.5, 0.5);
 
 class Raccoon extends Group {
-    constructor(parent, position, rotation) {
+    constructor(parent, position) {
         // Call parent Group() constructor
         super();
 
@@ -21,6 +21,7 @@ class Raccoon extends Group {
         loader.load(MODEL, (gltf) => {
             let model = gltf.scene;
             model.scale.set(scale.x, scale.y, scale.z);
+            model.rotateY(Math.PI / 2);
             this.add(model);
             this.box = new Box3().setFromObject(gltf.scene, true);
             console.log(this.box);
@@ -28,7 +29,6 @@ class Raccoon extends Group {
         this.position.x = position.x;
         this.position.y = position.x;
         this.position.z = position.x;
-        this.rotateY(rotation);
         this.box = new Box3();
     }
 
@@ -53,6 +53,14 @@ class Raccoon extends Group {
             // this.box.translate(new Vector3(0, 0, SIDEWALK_SIZE.z/20));
         }
 
+    }
+
+    resetPosition() {
+        this.box.translate(-this.p);
+        this.p = new Vector3(0, 0, 0);
+        this.position.x = this.p.x;
+        this.position.y = this.p.y;
+        this.position.z = this.p.z;
     }
 
     update(timestamp) {

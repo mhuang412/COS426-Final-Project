@@ -75,11 +75,9 @@ class SeedScene extends Scene {
             this.state.terrainList.push(sidewalk);
         }
 
-        const raccoon = new Raccoon(this, new Vector3(0, 0, 0), Math.PI / 2);
+        this.state.character = new Raccoon(this, new Vector3(0, 0, 0));
         // const raccoon = new Scooter(this, new Vector3(0, 0, 0), min_pos, "scooter");
-        this.add(raccoon);
-        this.state.character = raccoon;
-        this.state.updateList.push(raccoon);
+        this.add(this.state.character);
 
         console.log(this.state.updateList);
 
@@ -106,6 +104,10 @@ class SeedScene extends Scene {
         this.state.hittableList = [];
         this.state.coinList = [];
 
+        this.remove(this.state.character);
+        this.state.character = new Raccoon(this, new Vector3(0, 0, 0));
+        this.add(this.state.character);
+
         console.log(this.state);
     }
 
@@ -116,6 +118,7 @@ class SeedScene extends Scene {
     update(timeStamp) {
         this.spawnObjects(timeStamp);
         // Call update for each object in the updateList
+        this.state.character.update(timeStamp);
         for (const obj of this.state.updateList) {
             obj.update(timeStamp);
         }

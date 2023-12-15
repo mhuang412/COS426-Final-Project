@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './scooter.gltf';
 import { HittableObject } from '../HittableObject';
 
-const scale = new Vector3(0.3, 0.3, 0.3);
+const scale = new Vector3(0.4, 0.4, 0.4);
 const translation = new Vector3(0, 0, 0);
 
 class Scooter extends HittableObject {
