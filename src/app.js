@@ -72,7 +72,9 @@ const onAnimationFrameHandler = (timeStamp) => {
         console.log("game OVER");
         sounds['bgmusic'].pause();
     }
-    scene.update && scene.update(timeStamp);
+    if (scene.gameRunning) {
+        scene.update && scene.update(timeStamp);
+    }
 
     coinText.innerText = "Coins: " + scene.coinsCollected;
 
@@ -112,8 +114,11 @@ window.addEventListener('resize', windowResizeHandler, false);
 
 window.addEventListener('keydown', (event) => {
     // if (event.repeat) return;
+    console.log(event.key);
     if (event.key == "ArrowLeft") scene.state.character.changeLanes(-1);
     if (event.key == "ArrowRight") scene.state.character.changeLanes(1);
+    if (event.repeat) return;
+    if (event.key == " ") scene.state.isPlaying = true;
     //console.log(keypress);
 }
 , false);

@@ -19,14 +19,16 @@ class SeedScene extends Scene {
         this.state = {
             // gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 0,
+            objList: [],
             updateList: [],
             terrainList: [],
             hittableList: [],
+            coinList: [],
             character: null,
         };
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee);
+        this.background = nightColor;
 
         // game status
         this.gameStart = true;
@@ -49,6 +51,7 @@ class SeedScene extends Scene {
         const raccoon = new Raccoon(this, new Vector3(0, 0, 0), Math.PI / 2);
         this.add(raccoon);
         this.state.character = raccoon;
+        this.state.updateList.push(raccoon);
 
         console.log(this.state.updateList);
 
@@ -56,11 +59,34 @@ class SeedScene extends Scene {
         // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
+    death() {
+        // game status
+        this.gameStart = true;
+        this.gameRunning = false;
+        this.gameOver = true;
+        this.gamePaused = false;
+        this.coinsCollected = 0;
+
+        for (const obj of this.state.hittableList) { 
+            this.remove(obj);
+        }
+
+        for (const obj of this.state.coinList) { 
+            this.remove(obj);
+        }
+
+        this.state.hittableList = [];
+        this.state.coinList = [];
+
+        console.log(this.state);
+    }
+
     addToUpdateList(object) {
         this.state.updateList.push(object);
     }
 
     update(timeStamp) {
+        this.spawnObjects(timeStamp);
         // Call update for each object in the updateList
         for (const obj of this.state.updateList) {
             obj.update(timeStamp);
@@ -68,26 +94,40 @@ class SeedScene extends Scene {
         for (const obj of this.state.terrainList) {
             obj.update(timeStamp);
         }
-        for (const obj of this.state.hittableList) {
+        for (const obj of this.state.coinList) {
             obj.update(timeStamp);
             if (obj.deactivate) {
-                if (obj.isHit && obj.name == 'coin') {
+                if (obj.isHit) {
                     this.coinsCollected += 1;
-                    this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
+                    this.state.coinList.splice(this.state.coinList.indexOf(obj), 1);
                     this.remove(obj);
                 // TODO: stop game when we hit any other obstacle
                 }
             }
         }
+        for (const obj of this.state.hittableList) {
+            obj.update(timeStamp);
+            if (obj.deactivate) {
+                if (obj.isHit) {
+                    this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
+                    this.remove(obj);
+                    this.death();
+                    break;
+                // TODO: stop game when we hit any other obstacle
+                }
+            }
+        }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));
+    }
 
+    spawnObjects(timeStamp) {
         // SPAWN COINS + OBSTACLES
         // generate coins
         if (Math.random() < 0.01) {
             lanes[Math.floor(Math.random() * lanes.length)];
             const coin = new Coin(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(coin);
-            this.state.hittableList.push(coin);
+            this.state.coinList.push(coin);
         }
 
         // generate cones
@@ -121,7 +161,6 @@ class SeedScene extends Scene {
             this.add(scooter);
             this.state.hittableList.push(scooter);
         }
-
     }
 }
 

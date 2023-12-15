@@ -9,7 +9,7 @@ const translation = new Vector3(0, 2.3, 0);
 class Csign extends HittableObject {
     constructor(parent, position, min_pos, name) {
         // Call parent Group() constructor
-        super(parent, position, min_pos, name);
+        super();
 
         const loader = new GLTFLoader();
 
@@ -23,6 +23,7 @@ class Csign extends HittableObject {
             gltf.scene.rotation.set(0, -1.75, 0);
 
             this.box = new Box3().setFromObject(gltf.scene, true).translate(this.p);
+            this.box.translate(new Vector3(0, -this.box.max.y, 0));
             let model = gltf.scene;
             this.add(model);
             this.isLoaded = true;
@@ -31,14 +32,13 @@ class Csign extends HittableObject {
         this.position.x = this.p.x;
         this.position.y = this.p.y;
         this.position.z = this.p.z;
-
-        parent.addToUpdateList(this);
     }
 
     update(timeStamp) {
         if (this.deactivate) return;
         this.move(timeStamp);
         this.checkCollision(this.parent.state.character);
+        console.log(this.box);
     }
 }
 

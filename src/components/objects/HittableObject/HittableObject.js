@@ -31,7 +31,7 @@ class HittableObject extends Group {
         this.p.x += dist;
         this.position.x += dist;
         this.box.translate(new Vector3(dist, 0, 0));
-        if (this.p.x < this.min_pos * SIDEWALK_SIZE.x) {
+        if (this.position.x < this.min_pos * SIDEWALK_SIZE.x) {
             this.deactivate = true;
         }
     }

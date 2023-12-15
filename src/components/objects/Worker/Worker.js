@@ -30,8 +30,6 @@ class Worker extends HittableObject {
         this.position.x = this.p.x;
         this.position.y = this.p.y;
         this.position.z = this.p.z;
-
-        parent.addToUpdateList(this);
     }
 
     update(timeStamp) {
