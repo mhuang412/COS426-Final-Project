@@ -65,7 +65,7 @@ class SeedScene extends Scene {
         this.gameRunning = false;
         this.gameOver = true;
         this.gamePaused = false;
-        this.coinsCollected = 0;
+        //this.coinsCollected = 0;
 
         for (const obj of this.state.hittableList) { 
             this.remove(obj);

@@ -77,6 +77,11 @@ p {
     text-shadow: 3px 3px #D1111A;
 }
 
+#game-over-container p {
+    margin: 0;
+    padding: 2px;
+}
+
 #instructions-container {
     justify-content: center;
     align-items: center;
@@ -94,8 +99,8 @@ p {
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.75);
-    width: 40vw;
-    height: 37vh;
+    width: 38vw;
+    height: 39vh;
     position: absolute;
     top: 27vh;
     left: 28vw;

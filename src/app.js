@@ -17,7 +17,7 @@ const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 let keypress = null;
-
+let highScore = 0;
 
 // Set up camera
 camera.position.set(-8, 5, 0);
@@ -73,8 +73,16 @@ endText.innerHTML = "You crashed into an obstacle :(";
 endContainer.appendChild(endText);
 
 let endText2 = document.createElement('p');
-endText2.innerHTML = "Hit spacebar to play again!";
+endText2.innerHTML = "Your score: " + scene.coinsCollected;
 endContainer.appendChild(endText2);
+
+let endText3 = document.createElement('p');
+endText3.innerHTML = "High score: " + highScore;
+endContainer.appendChild(endText3);
+
+let endText4 = document.createElement('p');
+endText4.innerHTML = "Hit spacebar to play again!";
+endContainer.appendChild(endText4);
 
 endContainer.style.visibility = 'hidden';
 
@@ -86,11 +94,19 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (scene.gameOver) {
         console.log("game OVER");
         endContainer.style.visibility = 'visible';
+        // change high scores
+        endText2.innerHTML = "Your score: " + scene.coinsCollected;
+        if (scene.coinsCollected > highScore) {
+            highScore = scene.coinsCollected;
+        }
+        endText3.innerHTML = "High score: " + highScore;
+
         sounds['bgmusic'].pause();
         scene.gameOver = false;
         scene.gameStart = true;
         scene.gameRunning = false;
         scene.gamePaused = false;
+        scene.coinsCollected = 0;
     }
     if (scene.gameRunning) {
         scene.update && scene.update(timeStamp);
