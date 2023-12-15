@@ -36,7 +36,6 @@ class Worker extends HittableObject {
 
     update(timeStamp) {
         if (this.deactivate) return;
-        this.rotateY(Math.PI/100);
         this.move(timeStamp);
         this.checkCollision(this.parent.state.character);
     }

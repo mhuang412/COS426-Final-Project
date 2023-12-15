@@ -1,4 +1,4 @@
-import { Group, Vector3 } from 'three';
+import { Group, Vector3, Box3} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './scooter.gltf';
 import { SIDEWALK_SIZE } from '../Sidewalk';
@@ -32,7 +32,7 @@ class Scooter extends Group {
             this.add(gltf.scene);
         });
 
-        this.boundingBox = new Box3;
+        this.boundingBox = new Box3();
         const floatingLeft = new TWEEN.Tween(this.position)
             .to({ z: -SIDEWALK_SIZE.z }, 2000);
         const floatingRight = new TWEEN.Tween(this.position)

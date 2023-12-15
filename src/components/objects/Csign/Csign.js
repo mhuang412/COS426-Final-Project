@@ -20,6 +20,8 @@ class Csign extends HittableObject {
 
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.set(scale.x, scale.y, scale.z);
+            gltf.scene.rotation.set(0, -1.75, 0);
+
             this.box = new Box3().setFromObject(gltf.scene, true).translate(this.p);
             let model = gltf.scene;
             this.add(model);
