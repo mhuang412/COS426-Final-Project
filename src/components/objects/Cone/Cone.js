@@ -24,13 +24,6 @@ class Cone extends HittableObject {
             let model = gltf.scene;
             this.add(model);
             this.isLoaded = true;
-            // let model = gltf.scene;
-            // model.position.setX(position.x);
-            // model.position.setY(position.y);
-            // model.position.setZ(position.z);
-
-            // this.add(model);
-
         });
         this.position.x = this.p.x;
         this.position.y = this.p.y;

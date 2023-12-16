@@ -37,6 +37,17 @@ audioLoader.load(
     }
 );
 
+let robbed = new THREE.Audio(listener);
+sounds['robbed'] = robbed;
+audioLoader.load(
+    'https://raw.githubusercontent.com/mhuang412/COS426-Final-Project/main/src/components/sounds/robbed.mp3',
+    function (buffer) {
+        robbed.setBuffer(buffer);
+        robbed.setLoop(false);
+        robbed.setVolume(0.50);
+    }
+);
+
 class SeedScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
@@ -50,6 +61,7 @@ class SeedScene extends Scene {
             updateList: [],
             terrainList: [],
             hittableList: [],
+            workerList: [],
             coinList: [],
             character: null,
         };
@@ -101,14 +113,17 @@ class SeedScene extends Scene {
             this.remove(obj);
         }
 
+        for (const obj of this.state.workerList) { 
+            this.remove(obj);
+        }
+
         this.state.hittableList = [];
         this.state.coinList = [];
+        this.state.workerList = [];
 
         this.remove(this.state.character);
         this.state.character = new Raccoon(this, new Vector3(0, 0, 0));
         this.add(this.state.character);
-
-        console.log(this.state);
     }
 
     addToUpdateList(object) {
@@ -131,9 +146,23 @@ class SeedScene extends Scene {
                 if (obj.isHit) {
                     // sounds['ding'].play();
                     this.coinsCollected += 1;
+                    this.state.coinList.splice(this.state.coinList.indexOf(obj), 1);
+                    this.remove(obj);
                 // TODO: stop game when we hit any other obstacle
                 }
-                this.state.coinList.splice(this.state.coinList.indexOf(obj), 1);
+            }
+        }
+        for (const obj of this.state.workerList) {
+            obj.update(timeStamp);
+            if (obj.deactivate) {
+                if (obj.isHit) {
+                    sounds['robbed'].play();
+                    this.coinsCollected = Math.floor(this.coinsCollected / 2);
+                    // this.state.workerList.splice(this.state.workerList.indexOf(obj), 1);
+                    // this.remove(obj);
+                // TODO: stop game when we hit any other obstacle
+                }
+                this.state.workerList.splice(this.state.workerList.indexOf(obj), 1);
                 this.remove(obj);
             }
         }
@@ -142,6 +171,8 @@ class SeedScene extends Scene {
             if (obj.deactivate) {
                 if (obj.isHit) {
                     sounds['hit'].play();
+                    this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
+                    this.remove(obj);
                     this.death();
                     break;
                 // TODO: stop game when we hit any other obstacle
@@ -177,10 +208,10 @@ class SeedScene extends Scene {
         }
 
         // generate workers
-        if (Math.random() < 0.001) {
+        if (Math.random() < 0.0005) {
             const worker = new Worker(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(worker);
-            this.state.hittableList.push(worker);
+            this.state.workerList.push(worker);
         }
 
         // generate scooters
