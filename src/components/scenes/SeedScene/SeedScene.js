@@ -44,7 +44,7 @@ audioLoader.load(
     function (buffer) {
         robbed.setBuffer(buffer);
         robbed.setLoop(false);
-        robbed.setVolume(0.50);
+        robbed.setVolume(10);
     }
 );
 
@@ -208,7 +208,7 @@ class SeedScene extends Scene {
         }
 
         // generate workers
-        if (Math.random() < 0.0005) {
+        if (Math.random() < 0.001) {
             const worker = new Worker(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(worker);
             this.state.workerList.push(worker);

@@ -55,14 +55,6 @@ class Raccoon extends Group {
 
     }
 
-    resetPosition() {
-        this.box.translate(-this.p);
-        this.p = new Vector3(0, 0, 0);
-        this.position.x = this.p.x;
-        this.position.y = this.p.y;
-        this.position.z = this.p.z;
-    }
-
     update(timestamp) {
         this.box.setFromObject(this);
         TWEEN.update();
