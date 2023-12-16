@@ -165,7 +165,7 @@ instructionsContainer.appendChild(instructionsTitle);
 
 // create a line break between title and content
 let instructionsText = document.createElement('p');
-instructionsText.innerHTML = "Move the raccoon left and right to collect coins and avoid obstacles!";
+instructionsText.innerHTML = "Move the raccoon left and right to collect coins and avoid obstacles! <br> <br> Careful, the workers will try to rob you!";
 instructionsContainer.appendChild(instructionsText);
 
 // make instructions table
