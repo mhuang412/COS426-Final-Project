@@ -178,7 +178,7 @@ space.insertCell(1).innerHTML = "Start game";
 
 let left = table.insertRow();
 left.insertCell(0).innerHTML = "[&#8592;]";
-left.insertCell(1).innerHTML = "Move racoon to the left";
+left.insertCell(1).innerHTML = "Move raccoon to the left";
 
 let right = table.insertRow();
 right.insertCell(0).innerHTML = "[&#8594;]";

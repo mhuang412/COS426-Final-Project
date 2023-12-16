@@ -3,8 +3,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './Worker.glb';
 import { HittableObject } from '../HittableObject'; 
 
-const scale = new Vector3(1, 1, 1);
-const translation = new Vector3(0, 0.5, 0);
+const scale = new Vector3(1.5, 2, 1.5);
+const translation = new Vector3(0, 0.7, 0);
 let clock = new Clock();
 
 class Worker extends HittableObject {
@@ -26,9 +26,9 @@ class Worker extends HittableObject {
             let model = gltf.scene;
             this.add(model);
             this.isLoaded = true;
-            // this.mixer = new AnimationMixer( gltf.scene );
-            // gltf.animations.forEach((clip) => {
-            //     this.mixer.clipAction(clip).play();})
+            this.mixer = new AnimationMixer( gltf.scene );
+            gltf.animations.forEach((clip) => {
+                this.mixer.clipAction(clip).play();})
         });
 
         this.position.x = this.p.x;
@@ -38,9 +38,9 @@ class Worker extends HittableObject {
 
     update(timeStamp) {
         if (this.deactivate) return;
-        // if (this.mixer) {
-        //     this.mixer.update(clock.getDelta());
-        // }        
+        if (this.mixer) {
+            this.mixer.update(clock.getDelta());
+        }        
         this.move(timeStamp);
         this.checkCollision(this.parent.state.character);
     }

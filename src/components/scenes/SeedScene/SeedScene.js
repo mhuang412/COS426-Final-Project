@@ -131,10 +131,10 @@ class SeedScene extends Scene {
                 if (obj.isHit) {
                     // sounds['ding'].play();
                     this.coinsCollected += 1;
-                    this.state.coinList.splice(this.state.coinList.indexOf(obj), 1);
-                    this.remove(obj);
                 // TODO: stop game when we hit any other obstacle
                 }
+                this.state.coinList.splice(this.state.coinList.indexOf(obj), 1);
+                this.remove(obj);
             }
         }
         for (const obj of this.state.hittableList) {
@@ -142,12 +142,12 @@ class SeedScene extends Scene {
             if (obj.deactivate) {
                 if (obj.isHit) {
                     sounds['hit'].play();
-                    this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
-                    this.remove(obj);
                     this.death();
                     break;
                 // TODO: stop game when we hit any other obstacle
                 }
+                this.state.hittableList.splice(this.state.hittableList.indexOf(obj), 1);
+                this.remove(obj);
             }
         }
         this.background = new Color().lerpColors(nightColor, dayColor, Math.sin(timeStamp/1000));
@@ -177,7 +177,7 @@ class SeedScene extends Scene {
         }
 
         // generate workers
-        if (Math.random() < 0.0005) {
+        if (Math.random() < 0.001) {
             const worker = new Worker(this, new Vector3(SIDEWALK_SIZE.x * max_pos, 0, SIDEWALK_SIZE.z * lanes[Math.floor(Math.random() * lanes.length)]), min_pos, max_pos, timeStamp);
             this.add(worker);
             this.state.hittableList.push(worker);
